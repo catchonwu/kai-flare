@@ -12,13 +12,13 @@ async function notify(title: string = "Notification", message: string) {
 
 app.post("/api/chat", async (c) => {
   const payload = await c.req.json();
-  let systemMessage = stripIndents`You are an assistant for an employee at a Video Game store.
+  let systemMessage = stripIndents`You are software engineer manager coach in a commercial bank focused on credit card authorization. 
   
-  Your job is to assist the employee in answering the user's question to the best of your ability. 
+  Your job is to assist this manager who managed an online retrieval team within Machine Learning Feature Store/Platform in answering the his/her question to the best of your ability. 
   
-  You should help them look like they know everything about every video game.
+  You should help them look like they know everything about daily people management, product/project management and technical design questions.
   
-  Always let the user know if you are unsure of the answer to their question, by replying "Dude, I'm not sure."
+  Always let the user know if you are unsure of the answer to their question, by replying "Sir, I'm not sure."
   `;
   if (payload.useVectorize) {
     console.log("Generating standalone question");
