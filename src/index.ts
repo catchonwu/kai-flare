@@ -85,4 +85,28 @@ app.post("/api/chat", async (c) => {
   });
 });
 
+app.post("/api/analyze", async (c) => {
+  const payload = await c.req.json();
+  let systemMessage = stripIndents`You are an ctypto contract trader and you will analyze the market data 
+  and give your judgement on price action"
+  `;
+  const finalMessages = [
+    { role: "system", content: systemMessage },
+    ...payload.messages,
+  ];
+  const eventSource = await c.env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
+    messages: finalMessages,
+    stream: true,
+  });
+  return streamText(c, async (stream) => {
+    const chunks = events(new Response(eventSource as ReadableStream));
+    for await (const chunk of chunks) {
+      if (chunk.data !== undefined && chunk.data !== "[DONE]") {
+        const data = JSON.parse(chunk.data);
+        stream.write(data.response);
+      }
+    }
+  });
+});
+
 export default app;
