@@ -1,5 +1,5 @@
 #:schema node_modules/wrangler/config-schema.json
-name = "gamertown"
+name = "llmapp"
 main = "src/index.ts"
 compatibility_date = "2024-09-03"
 
@@ -104,7 +104,7 @@ binding = "AI"
 
 # Bind a Vectorize index. Use to store and query vector embeddings for semantic search, classification and other vector search use-cases.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#vectorize-indexes
-[[vectorize]]
-binding = "VECTORIZE"
-index_name = "video-game-summaries"
+# [[vectorize]]
+# binding = "VECTORIZE"
+# index_name = "video-game-summaries"
 
