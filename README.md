@@ -1,46 +1,101 @@
-# Gamertown
+# Solilop MVP
 
-Welcome to Gamertown!
+AI companion app where users share thoughts with "Lop" characters that create anonymous emotional connections through a whisper network.
 
-[![Watch Gamertown Vectorize Demo on YouTube](https://img.youtube.com/vi/9IjfyBJsJRQ/0.jpg)](https://youtu.be/9IjfyBJsJRQ)
+## Features
 
-This repo is the code for the behind the counter application that answers all your questions.
+- **Thought Sharing**: Share your thoughts with your personal Lop companion
+- **Sentiment Analysis**: Automatic detection of emotional tone in thoughts
+- **Whisper Network**: Anonymous encouraging messages sent between users with complementary emotional states
+- **Lop Characters**: Choose from 5 different Lop personalities as your companion
+- **Thought Album**: Track and review your emotional journey over time
 
-This is a demo of [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/) making use of [Vectorize](https://developers.cloudflare.com/vectorize/), our vector database.
+## Tech Stack
 
-This data can come from any source, I happend to use the [IGDB from Twitch](https://www.igdb.com/). I used the [IGDB API](https://api-docs.igdb.com/#getting-started)
+- **Frontend**: React + TypeScript + Tailwind CSS (CDN-based for MVP)
+- **Backend**: Cloudflare Workers + Hono
+- **Database**: Cloudflare D1 (SQLite)
+- **Session Storage**: Cloudflare KV
+- **Deployment**: Cloudflare Pages + Workers
 
-The app is styled by the absolutely incredible [98.css](https://jdan.github.io/98.css/)
+## Getting Started
 
-Also, you should check out [Oddworld](https://x.com/OddworldInc).
+### Prerequisites
 
-## Get started
+- Node.js 18+
+- Cloudflare account
+- Wrangler CLI installed (`npm install -g wrangler`)
 
-Install dependencies
+### Installation
 
+1. Clone the repository:
+```bash
+git clone [repository-url]
+cd solilop-mvp
+```
+
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-Create your Vectorize database. (I used the bge-large embedding.)
-
+3. Initialize the D1 database locally:
 ```bash
-npx wrangler vectorize create video-game-summaries --preset "@cf/baai/bge-large-en-v1.5"      
+npm run db:local
 ```
 
-Run the local development server
-
+4. Run the development server:
 ```bash
 npm run dev
 ```
 
-Deploy your application
+The app will be available at `http://localhost:8787`
 
+### Deployment
+
+1. Create a D1 database in Cloudflare:
+```bash
+wrangler d1 create solilop-db
+```
+
+2. Update `wrangler.toml` with your database ID
+
+3. Initialize the production database:
+```bash
+npm run db:init
+```
+
+4. Deploy to Cloudflare:
 ```bash
 npm run deploy
 ```
 
+## API Endpoints
 
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
 
+### Thoughts
+- `POST /api/thoughts` - Create new thought
+- `GET /api/thoughts` - Get user's thoughts
 
+### Whispers
+- `GET /api/whispers` - Get received whispers
+- `PUT /api/whispers/:id/read` - Mark whisper as read
 
+### Lop
+- `GET /api/lop/response` - Get Lop companion response
+
+## Security Notes
+
+This MVP uses simplified authentication and password hashing for demonstration purposes. For production use:
+- Implement proper JWT library
+- Use bcrypt or similar for password hashing
+- Add rate limiting
+- Implement proper CORS policies
+- Use environment-specific secrets
+
+## License
+
+MIT

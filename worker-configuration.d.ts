@@ -2,6 +2,8 @@
 // by running `wrangler types`
 
 interface Env {
-	VECTORIZE: VectorizeIndex;
 	AI: Ai;
+	DB: D1Database;
+	SESSIONS: KVNamespace;
+	JWT_SECRET: string;
 }

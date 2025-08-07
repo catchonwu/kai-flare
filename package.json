@@ -1,19 +1,18 @@
 {
-  "name": "gamertown",
+  "name": "solilop-mvp",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "db:init": "wrangler d1 execute solilop-db --file=./schema.sql",
+    "db:local": "wrangler d1 execute solilop-db --local --file=./schema.sql"
   },
   "dependencies": {
-    "common-tags": "^1.8.2",
-    "fetch-event-stream": "^0.1.5",
-    "hono": "^4.5.9",
-    "sbd": "^1.0.19"
+    "hono": "^4.5.9"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240821.1",
-    "@types/common-tags": "^1.8.4",
-    "wrangler": "^3.76.0"
+    "wrangler": "^3.76.0",
+    "typescript": "^5.3.3"
   }
 }
