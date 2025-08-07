@@ -39,35 +39,59 @@ cd solilop-mvp
 npm install
 ```
 
-3. Initialize the D1 database locally:
-```bash
-npm run db:local
-```
-
-4. Run the development server:
+3. Run the development server (this will create local D1 database automatically):
 ```bash
 npm run dev
 ```
 
 The app will be available at `http://localhost:8787`
 
+Note: For local development, the app uses local D1 and KV storage that persist in your local environment.
+
 ### Deployment
 
-1. Create a D1 database in Cloudflare:
+For production deployment, you need to create actual Cloudflare resources:
+
+1. **Create a D1 database:**
 ```bash
-wrangler d1 create solilop-db
+npx wrangler d1 create solilop-db
+```
+Copy the database ID from the output and update the `database_id` in `wrangler.toml`.
+
+2. **Create a KV namespace:**
+```bash
+npx wrangler kv namespace create "SESSIONS"
+npx wrangler kv namespace create "SESSIONS" --preview
+```
+Copy the namespace IDs and update the `id` and `preview_id` in `wrangler.toml`.
+
+3. **Initialize the production database:**
+```bash
+npx wrangler d1 execute solilop-db --file=./schema.sql
 ```
 
-2. Update `wrangler.toml` with your database ID
-
-3. Initialize the production database:
+4. **Set environment secrets:**
 ```bash
-npm run db:init
+npx wrangler secret put JWT_SECRET
 ```
+Enter a secure random string when prompted.
 
-4. Deploy to Cloudflare:
+5. **Deploy to Cloudflare:**
 ```bash
 npm run deploy
+```
+
+**Example wrangler.toml configuration after creating resources:**
+```toml
+[[d1_databases]]
+binding = "DB"
+database_name = "solilop-db"
+database_id = "your-actual-database-id-here"
+
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "your-actual-kv-namespace-id-here"
+preview_id = "your-actual-preview-id-here"
 ```
 
 ## API Endpoints

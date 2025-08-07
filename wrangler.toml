@@ -3,7 +3,7 @@ name = "solilop-mvp"
 main = "src/index.ts"
 compatibility_date = "2024-09-03"
 
-assets = "public"
+legacy_assets = "public"
 
 # Automatically place your workloads in an optimal location to minimize latency.
 # If you are running back-end logic in a Worker, running it closer to your back-end infrastructure
@@ -37,10 +37,11 @@ binding = "AI"
 
 # Bind a D1 database. D1 is Cloudflare's native serverless SQL database.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#d1-databases
+# For local development - will use local D1 database
 [[d1_databases]]
 binding = "DB"
 database_name = "solilop-db"
-database_id = "local"
+database_id = "00000000-0000-0000-0000-000000000000"
 
 # Bind a dispatch namespace. Use Workers for Platforms to deploy serverless functions programmatically on behalf of your customers.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#dispatch-namespace-bindings-workers-for-platforms
@@ -69,10 +70,11 @@ database_id = "local"
 
 # Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#kv-namespaces
+# For local development - will use local KV namespace
 [[kv_namespaces]]
 binding = "SESSIONS"
-id = "local"
-preview_id = "local"
+id = "00000000000000000000000000000000"
+preview_id = "00000000000000000000000000000000"
 
 # Bind an mTLS certificate. Use to present a client certificate when communicating with another service.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#mtls-certificates
