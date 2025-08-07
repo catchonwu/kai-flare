@@ -41,7 +41,7 @@ binding = "AI"
 [[d1_databases]]
 binding = "DB"
 database_name = "solilop-db"
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "edec4900-12f6-4e15-8c0b-2ec55b742db6"
 
 # Bind a dispatch namespace. Use Workers for Platforms to deploy serverless functions programmatically on behalf of your customers.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#dispatch-namespace-bindings-workers-for-platforms
@@ -73,8 +73,8 @@ database_id = "00000000-0000-0000-0000-000000000000"
 # For local development - will use local KV namespace
 [[kv_namespaces]]
 binding = "SESSIONS"
-id = "00000000000000000000000000000000"
-preview_id = "00000000000000000000000000000000"
+id = "a0ba91cc04d640308207844810d03db6"
+preview_id = "a0ba91cc04d640308207844810d03db6"
 
 # Bind an mTLS certificate. Use to present a client certificate when communicating with another service.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#mtls-certificates
