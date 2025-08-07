@@ -6,4 +6,7 @@ interface Env {
 	DB: D1Database;
 	SESSIONS: KVNamespace;
 	JWT_SECRET: string;
+	// KV binding for static assets (automatically added by Workers Sites)
+	__STATIC_CONTENT: KVNamespace;
+	__STATIC_CONTENT_MANIFEST: string;
 }

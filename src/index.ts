@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import { getAssetFromKV, serveSinglePageApp } from '@cloudflare/kv-asset-handler';
 import auth from './routes/auth';
 import thoughts from './routes/thoughts';
 import whispers from './routes/whispers';
@@ -7,8 +8,8 @@ import lop from './routes/lop';
 
 const app = new Hono<{ Bindings: Env }>();
 
-// CORS middleware
-app.use('*', cors({
+// CORS middleware for API routes only
+app.use('/api/*', cors({
   origin: '*',
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
@@ -25,9 +26,30 @@ app.route('/api/thoughts', thoughts);
 app.route('/api/whispers', whispers);
 app.route('/api/lop', lop);
 
-// 404 handler
-app.notFound((c) => {
-  return c.json({ error: 'Not found' }, 404);
+// Handle static assets and SPA routing
+app.get('*', async (c) => {
+  try {
+    // Serve static assets from KV
+    return await getAssetFromKV(
+      {
+        request: c.req.raw,
+        waitUntil(promise) {
+          return c.executionCtx.waitUntil(promise);
+        },
+      },
+      {
+        mapRequestToAsset: serveSinglePageApp,
+        cacheControl: {
+          browserTTL: 60 * 60 * 24 * 365, // 1 year
+          edgeTTL: 60 * 60 * 24 * 365, // 1 year
+          bypassCache: false,
+        },
+      }
+    );
+  } catch (e) {
+    // If asset not found, return 404
+    return c.notFound();
+  }
 });
 
 // Error handler
