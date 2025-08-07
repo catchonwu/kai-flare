@@ -4,10 +4,19 @@ main = "src/index.ts"
 compatibility_date = "2024-09-03"
 
 # Static assets configuration
-# Using Workers Sites to serve static files
+# Using Workers Sites to serve static files from frontend build
 [site]
 bucket = "./public"
+include = ["**/*"]
 exclude = ["*.map"]
+
+# Custom domain configuration
+# Add your custom domain here after setting up DNS in Cloudflare
+# Docs: https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
+routes = [
+  { pattern = "solilop.com/*", custom_domain = true },
+  { pattern = "www.solilop.com/*", custom_domain = true }
+]
 
 # Automatically place your workloads in an optimal location to minimize latency.
 # If you are running back-end logic in a Worker, running it closer to your back-end infrastructure

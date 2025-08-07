@@ -12,11 +12,12 @@ AI companion app where users share thoughts with "Lop" characters that create an
 
 ## Tech Stack
 
-- **Frontend**: React + TypeScript + Tailwind CSS (CDN-based for MVP)
+- **Frontend**: React + TypeScript + Vite + Tailwind CSS
 - **Backend**: Cloudflare Workers + Hono
 - **Database**: Cloudflare D1 (SQLite)
 - **Session Storage**: Cloudflare KV
-- **Deployment**: Cloudflare Pages + Workers
+- **Static Assets**: Cloudflare Workers Sites
+- **Deployment**: GitHub Actions → Cloudflare Workers
 
 ## Getting Started
 
@@ -41,10 +42,21 @@ cd solilop-mvp
 npm install
 ```
 
-3. Run the development server (this will create local D1 database automatically):
+3. Install frontend dependencies:
 
 ```bash
-npm run dev
+cd frontend && npm install && cd ..
+```
+
+4. Run the development server (this will create local D1 database automatically):
+
+```bash
+# Quick start (builds frontend + starts backend)
+./dev.sh
+
+# Or manually:
+npm run build:frontend  # Build React frontend
+npm run dev             # Start Cloudflare Workers backend
 ```
 
 The app will be available at `http://localhost:8787`
