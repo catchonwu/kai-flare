@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Textarea } from './ui/textarea';
 import LopCharacter, { LopPersonality } from './LopCharacter';
+import { ThemeToggle } from './ThemeToggle';
 import { Heart, Edit3, Clock, Sparkles } from 'lucide-react';
 
 interface WhisperCard {
@@ -71,26 +72,29 @@ export default function Dashboard({ selectedLop, onNavigate }: DashboardProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-mint/10 via-background to-peachy/10">
-      {/* Header with Lop */}
+      {/* Header with Theme Toggle and Lop */}
       <div className="px-6 pt-8 pb-4">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Good to see you</h1>
             <p className="text-muted-foreground">How are you feeling today?</p>
           </div>
-          <div className="relative">
-            <LopCharacter 
-              personality={selectedLop} 
-              size="md" 
-              animated={isSharing}
-              className="cursor-pointer"
-              onClick={() => onNavigate('lop')}
-            />
-            {isSharing && (
-              <div className="absolute -top-1 -right-1">
-                <Sparkles className="w-4 h-4 text-coral animate-spin" />
-              </div>
-            )}
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <div className="relative">
+              <LopCharacter 
+                personality={selectedLop} 
+                size="md" 
+                animated={isSharing}
+                className="cursor-pointer"
+                onClick={() => onNavigate('lop')}
+              />
+              {isSharing && (
+                <div className="absolute -top-1 -right-1">
+                  <Sparkles className="w-4 h-4 text-coral animate-spin" />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

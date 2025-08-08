@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Progress } from './ui/progress';
 import { Switch } from './ui/switch';
-import { useTheme } from './ThemeProvider';
+import { useTheme } from 'next-themes';
 import LopCharacter, { LopPersonality } from './LopCharacter';
 import { Heart, Calendar, MessageCircle, TrendingUp, Palette, Settings, Moon, Sun } from 'lucide-react';
 

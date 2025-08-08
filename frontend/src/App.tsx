@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ThemeProvider } from './components/ThemeProvider';
 import Onboarding from './components/Onboarding';
 import Dashboard from './components/Dashboard';
@@ -6,7 +6,7 @@ import WhispersFeed from './components/WhispersFeed';
 import PersonalAlbum from './components/PersonalAlbum';
 import LopProfile from './components/LopProfile';
 import BottomNavigation from './components/BottomNavigation';
-import { LopPersonality, lopPersonalities } from './components/LopCharacter';
+import { LopPersonality } from './components/LopCharacter';
 
 export default function App() {
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
@@ -30,7 +30,12 @@ export default function App() {
   // Show onboarding if not completed
   if (!isOnboardingComplete || !selectedLop) {
     return (
-      <ThemeProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
         <Onboarding onComplete={handleOnboardingComplete} />
       </ThemeProvider>
     );
@@ -53,7 +58,12 @@ export default function App() {
   };
 
   return (
-    <ThemeProvider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
       <div className="min-h-screen bg-background">
         {renderScreen()}
         <BottomNavigation activeScreen={activeScreen} onNavigate={handleNavigate} />
