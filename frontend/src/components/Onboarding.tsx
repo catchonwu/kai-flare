@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from './ui/button';
 import LopCharacter, { lopPersonalities, LopPersonality } from './LopCharacter';
 import { Heart, Users, MessageCircle, ArrowRight, Sparkles } from 'lucide-react';
@@ -31,7 +31,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         </div>
 
         {/* Hero Lop */}
-        <div className="relative">
+        <div className="relative p-4">
           <LopCharacter 
             personality={lopPersonalities[0]} 
             size="xl" 

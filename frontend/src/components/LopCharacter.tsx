@@ -67,10 +67,10 @@ export default function LopCharacter({
   };
 
   const earSize = {
-    sm: { width: 12, height: 20 },
-    md: { width: 18, height: 30 },
-    lg: { width: 24, height: 40 },
-    xl: { width: 36, height: 60 }
+    sm: { width: 8, height: 16 },
+    md: { width: 12, height: 24 },
+    lg: { width: 16, height: 32 },
+    xl: { width: 20, height: 40 }
   };
 
   const bodySize = {
@@ -106,51 +106,51 @@ export default function LopCharacter({
 
   return (
     <div 
-      className={`${sizeClasses[size]} ${className} flex items-center justify-center relative ${onClick ? 'cursor-pointer' : ''}`}
+      className={`${sizeClasses[size]} ${className} flex items-center justify-center relative ${onClick ? 'cursor-pointer' : ''} p-1`}
       onClick={onClick}
     >
       <svg
-        viewBox="0 0 100 100"
+        viewBox="-20 -20 140 140"
         className={`w-full h-full ${animated ? 'animate-pulse' : ''}`}
         style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.1))' }}
       >
         {/* Left Ear */}
         <ellipse
-          cx="25"
-          cy="35"
+          cx="35"
+          cy="42"
           rx={earSize[size].width}
           ry={earSize[size].height}
           fill={personality.primaryColor}
-          transform="rotate(-20 25 35)"
+          transform="rotate(-10 35 42)"
           opacity="0.9"
         />
         <ellipse
-          cx="25"
-          cy="35"
+          cx="35"
+          cy="42"
           rx={earSize[size].width * 0.6}
           ry={earSize[size].height * 0.7}
           fill={personality.secondaryColor}
-          transform="rotate(-20 25 35)"
+          transform="rotate(-10 35 42)"
           opacity="0.7"
         />
 
         {/* Right Ear */}
         <ellipse
-          cx="75"
-          cy="35"
+          cx="65"
+          cy="42"
           rx={earSize[size].width}
           ry={earSize[size].height}
           fill={personality.primaryColor}
-          transform="rotate(20 75 35)"
+          transform="rotate(10 65 42)"
           opacity="0.9"
         />
         <ellipse
-          cx="75"
-          cy="35"
+          cx="65"
+          cy="42"
           rx={earSize[size].width * 0.6}
           ry={earSize[size].height * 0.7}
           fill={personality.secondaryColor}
-          transform="rotate(20 75 35)"
+          transform="rotate(10 65 42)"
           opacity="0.7"
         />
 

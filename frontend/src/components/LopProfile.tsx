@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Progress } from './ui/progress';
@@ -13,7 +12,8 @@ interface LopProfileProps {
 }
 
 export default function LopProfile({ selectedLop, onChangeLop }: LopProfileProps) {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
+  const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
   // Mock relationship data
   const relationshipStats = {
@@ -41,7 +41,9 @@ export default function LopProfile({ selectedLop, onChangeLop }: LopProfileProps
     <div className="min-h-screen bg-gradient-to-br from-coral/10 via-background to-lavender/10 pb-24">
       {/* Header */}
       <div className="px-6 pt-8 pb-6 text-center space-y-4">
-        <LopCharacter personality={selectedLop} size="xl" className="mx-auto" />
+        <div className="p-4">
+          <LopCharacter personality={selectedLop} size="xl" className="mx-auto" />
+        </div>
         <div>
           <h1 className="text-2xl font-bold">{selectedLop.name}</h1>
           <p className="text-muted-foreground">{selectedLop.description}</p>
