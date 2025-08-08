@@ -101,7 +101,7 @@ export default function Dashboard({ selectedLop, onNavigate }: DashboardProps) {
 
       {/* Main Input Area */}
       <div className="px-6 pb-6">
-        <Card className="p-4 bg-white/70 dark:bg-card/70 border-mint/20 rounded-2xl">
+        <Card className="p-4 bg-white/80 dark:bg-card/80 border-mint/10 rounded-lg shadow-sm">
           <div className="space-y-4">
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
               <Edit3 className="w-4 h-4" />
@@ -124,7 +124,7 @@ export default function Dashboard({ selectedLop, onNavigate }: DashboardProps) {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="rounded-xl border-peachy/50 text-peachy hover:bg-peachy/10"
+                  className="rounded-md border-peachy/30 text-peachy hover:bg-peachy/10"
                   disabled={!thoughtText.trim() || isSharing}
                 >
                   Save Draft
@@ -133,7 +133,7 @@ export default function Dashboard({ selectedLop, onNavigate }: DashboardProps) {
                 <Button
                   onClick={handleShare}
                   disabled={!thoughtText.trim() || isSharing}
-                  className="bg-coral hover:bg-coral/90 text-white rounded-xl px-6"
+                  className="bg-coral hover:bg-coral/90 text-white rounded-md px-6"
                   size="sm"
                 >
                   {isSharing ? 'Sharing...' : 'Share with Lop'}
@@ -162,7 +162,7 @@ export default function Dashboard({ selectedLop, onNavigate }: DashboardProps) {
           {recentWhispers.slice(0, 3).map((whisper) => (
             <Card 
               key={whisper.id}
-              className="p-4 bg-gradient-to-r from-white/60 dark:from-white/10 to-lavender/20 border-lavender/20 rounded-2xl hover:shadow-md transition-shadow"
+              className="p-4 bg-white/70 dark:bg-white/5 border border-lavender/10 rounded-lg hover:shadow-md transition-all duration-200"
             >
               <div className="space-y-2">
                 <p className="text-sm leading-relaxed">{whisper.content}</p>

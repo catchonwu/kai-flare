@@ -15,7 +15,7 @@ export default function BottomNavigation({ activeScreen, onNavigate }: BottomNav
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-card/90 backdrop-blur-md border-t border-border/20">
+    <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-card/95 backdrop-blur-md border-t border-border shadow-lg">
       <div className="flex items-center justify-around py-2 px-4 max-w-md mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -25,7 +25,7 @@ export default function BottomNavigation({ activeScreen, onNavigate }: BottomNav
             <button
               key={item.id}
               onClick={() => onNavigate(item.id)}
-              className={`flex flex-col items-center space-y-1 px-3 py-2 rounded-xl transition-all ${
+              className={`flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-all ${
                 isActive 
                   ? 'text-coral bg-coral/10' 
                   : 'text-muted-foreground hover:text-coral/70'

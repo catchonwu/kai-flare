@@ -156,7 +156,7 @@ export default function WhispersFeed() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search whispers..."
-            className="pl-10 rounded-2xl border-lavender/20 bg-white/50"
+            className="pl-10 rounded-lg border-lavender/10 bg-white/60 shadow-sm"
           />
           <Button
             variant="ghost"
@@ -173,7 +173,7 @@ export default function WhispersFeed() {
         {filteredWhispers.map((whisper) => (
           <Card
             key={whisper.id}
-            className={`p-5 bg-gradient-to-br ${getMoodColor(whisper.mood)} border-white/20 rounded-2xl hover:shadow-lg transition-all duration-300 backdrop-blur-sm`}
+            className={`p-4 bg-white/70 dark:bg-white/5 border border-gray-200/50 dark:border-white/10 rounded-lg hover:shadow-md transition-all duration-200`}
           >
             <div className="space-y-4">
               {/* Content */}

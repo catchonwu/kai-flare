@@ -130,7 +130,7 @@ export default function PersonalAlbum() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search your memories..."
-            className="pl-10 rounded-2xl border-peachy/20 bg-white/50"
+            className="pl-10 rounded-lg border-peachy/10 bg-white/60 shadow-sm"
           />
         </div>
 
@@ -144,7 +144,7 @@ export default function PersonalAlbum() {
                 variant={selectedMood === filter.value ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setSelectedMood(filter.value)}
-                className={`rounded-xl whitespace-nowrap ${
+                className={`rounded-md whitespace-nowrap ${
                   selectedMood === filter.value
                     ? 'bg-coral text-white'
                     : `border-peachy/30 ${filter.color} hover:bg-peachy/10`
@@ -169,7 +169,7 @@ export default function PersonalAlbum() {
             {memories.filter(m => m.isHighlight).map((memory) => (
               <Card
                 key={memory.id}
-                className={`min-w-72 p-4 bg-gradient-to-br ${getMoodGradient(memory.mood)} border-white/20 rounded-2xl`}
+                className={`min-w-72 p-4 bg-white/70 dark:bg-white/5 border border-gray-200/50 dark:border-white/10 rounded-lg shadow-sm`}
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
@@ -200,7 +200,7 @@ export default function PersonalAlbum() {
         {filteredMemories.map((memory) => (
           <Card
             key={memory.id}
-            className={`p-5 bg-gradient-to-br ${getMoodGradient(memory.mood)} border-white/20 rounded-2xl hover:shadow-lg transition-all duration-300`}
+            className={`p-4 bg-white/70 dark:bg-white/5 border border-gray-200/50 dark:border-white/10 rounded-lg hover:shadow-md transition-all duration-200`}
           >
             <div className="space-y-4">
               {/* Header */}

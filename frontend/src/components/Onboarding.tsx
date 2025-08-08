@@ -50,7 +50,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           </p>
           <Button 
             onClick={nextStep}
-            className="w-full bg-coral hover:bg-coral/90 text-white rounded-2xl h-12"
+            className="w-full bg-coral hover:bg-coral/90 text-white rounded-lg h-12"
             size="lg"
           >
             Get Started
@@ -71,7 +71,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
 
         <div className="space-y-6">
           {/* Step 1 */}
-          <div className="flex items-center space-x-4 p-4 bg-white/50 rounded-2xl border border-mint/20">
+          <div className="flex items-center space-x-4 p-4 bg-white/60 rounded-lg border border-mint/10 shadow-sm">
             <div className="w-12 h-12 bg-mint rounded-full flex items-center justify-center">
               <MessageCircle className="w-6 h-6 text-white" />
             </div>
@@ -82,7 +82,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           </div>
 
           {/* Step 2 */}
-          <div className="flex items-center space-x-4 p-4 bg-white/50 rounded-2xl border border-lavender/20">
+          <div className="flex items-center space-x-4 p-4 bg-white/60 rounded-lg border border-lavender/10 shadow-sm">
             <div className="w-12 h-12 bg-lavender rounded-full flex items-center justify-center">
               <Users className="w-6 h-6 text-white" />
             </div>
@@ -93,7 +93,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           </div>
 
           {/* Step 3 */}
-          <div className="flex items-center space-x-4 p-4 bg-white/50 rounded-2xl border border-peachy/20">
+          <div className="flex items-center space-x-4 p-4 bg-white/60 rounded-lg border border-peachy/10 shadow-sm">
             <div className="w-12 h-12 bg-peachy rounded-full flex items-center justify-center">
               <Heart className="w-6 h-6 text-white" />
             </div>
@@ -129,10 +129,10 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             <button
               key={lop.id}
               onClick={() => setSelectedLop(lop)}
-              className={`p-4 rounded-2xl border-2 transition-all ${
+              className={`p-4 rounded-lg border-2 transition-all ${
                 selectedLop?.id === lop.id
                   ? 'border-coral bg-coral/10 scale-105'
-                  : 'border-border bg-white/50 hover:border-coral/50'
+                  : 'border-border bg-white/60 hover:border-coral/50'
               }`}
             >
               <LopCharacter personality={lop} size="lg" className="mx-auto mb-3" />
@@ -145,7 +145,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         {selectedLop && (
           <Button 
             onClick={nextStep}
-            className="w-full bg-coral hover:bg-coral/90 text-white rounded-2xl h-12"
+            className="w-full bg-coral hover:bg-coral/90 text-white rounded-lg h-12"
             size="lg"
           >
             This is my Lop

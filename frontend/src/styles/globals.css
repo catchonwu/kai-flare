@@ -37,7 +37,7 @@
   --accent-foreground: #4a4a52;
   --destructive: #ff8a80;
   --destructive-foreground: #ffffff;
-  --border: rgba(74, 74, 82, 0.1);
+  --border: rgba(74, 74, 82, 0.08);
   --input: transparent;
   --input-background: #f9f7f4;
   --switch-background: #e8e6e3;
@@ -52,8 +52,8 @@
   --chart-4: var(--warm-coral);
   --chart-5: #b8d4ff;
 
-  --radius: 1rem;
-  /* More rounded for organic feel */
+  --radius: 0.5rem;
+  /* Monica-inspired moderate radius */
   --sidebar: #fefcf8;
   --sidebar-foreground: #4a4a52;
   --sidebar-primary: #a8e6cf;
@@ -84,7 +84,7 @@
   --accent-foreground: #f5f3f0;
   --destructive: #e67a70;
   --destructive-foreground: #f5f3f0;
-  --border: rgba(245, 243, 240, 0.1);
+  --border: rgba(245, 243, 240, 0.08);
   --input: #3a3a42;
   --input-background: #3a3a42;
   --switch-background: #4a4a52;
@@ -247,5 +247,14 @@ html {
 
   .bg-soft-cream {
     background-color: var(--color-soft-cream);
+  }
+
+  /* Monica-inspired clean shadows */
+  .shadow-card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+
+  .shadow-card-hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
   }
 }

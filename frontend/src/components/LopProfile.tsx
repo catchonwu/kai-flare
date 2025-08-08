@@ -50,7 +50,7 @@ export default function LopProfile({ selectedLop, onChangeLop }: LopProfileProps
 
       {/* Relationship Stats */}
       <div className="px-6 pb-6">
-        <Card className="p-5 bg-white/70 dark:bg-card/70 border-mint/20 rounded-2xl">
+        <Card className="p-4 bg-white/80 dark:bg-card/80 border-mint/10 rounded-lg shadow-sm">
           <h2 className="text-lg font-medium mb-4 flex items-center space-x-2">
             <Heart className="w-5 h-5 text-coral" />
             <span>Your Journey Together</span>
@@ -94,7 +94,7 @@ export default function LopProfile({ selectedLop, onChangeLop }: LopProfileProps
 
       {/* Personality Traits */}
       <div className="px-6 pb-6">
-        <Card className="p-5 bg-white/70 dark:bg-card/70 border-lavender/20 rounded-2xl">
+        <Card className="p-4 bg-white/80 dark:bg-card/80 border-lavender/10 rounded-lg shadow-sm">
           <h2 className="text-lg font-medium mb-4 flex items-center space-x-2">
             <Palette className="w-5 h-5 text-lavender" />
             <span>{selectedLop.name}'s Personality</span>
@@ -119,7 +119,7 @@ export default function LopProfile({ selectedLop, onChangeLop }: LopProfileProps
 
       {/* Lop Insights */}
       <div className="px-6 pb-6">
-        <Card className="p-5 bg-gradient-to-br from-peachy/20 to-coral/20 border-peachy/20 rounded-2xl">
+        <Card className="p-4 bg-white/70 dark:bg-white/5 border border-peachy/10 rounded-lg shadow-sm">
           <h2 className="text-lg font-medium mb-4 flex items-center space-x-2">
             <TrendingUp className="w-5 h-5 text-coral" />
             <span>{selectedLop.name}'s Insights About You</span>
@@ -127,7 +127,7 @@ export default function LopProfile({ selectedLop, onChangeLop }: LopProfileProps
           
           <div className="space-y-3">
             {recentInsights.map((insight, index) => (
-              <div key={index} className="flex items-start space-x-3 p-3 bg-white/40 dark:bg-white/10 rounded-xl">
+              <div key={index} className="flex items-start space-x-3 p-3 bg-white/60 dark:bg-white/10 rounded-lg">
                 <div className="w-2 h-2 bg-coral rounded-full mt-2 flex-shrink-0" />
                 <p className="text-sm leading-relaxed">{insight}</p>
               </div>
@@ -138,7 +138,7 @@ export default function LopProfile({ selectedLop, onChangeLop }: LopProfileProps
 
       {/* Customization */}
       <div className="px-6 space-y-4">
-        <Card className="p-5 bg-white/70 dark:bg-card/70 border-coral/20 rounded-2xl">
+        <Card className="p-4 bg-white/80 dark:bg-card/80 border-coral/10 rounded-lg shadow-sm">
           <h2 className="text-lg font-medium mb-4 flex items-center space-x-2">
             <Settings className="w-5 h-5 text-coral" />
             <span>Customize Your Experience</span>
@@ -146,7 +146,7 @@ export default function LopProfile({ selectedLop, onChangeLop }: LopProfileProps
           
           <div className="space-y-4">
             {/* Dark Mode Toggle */}
-            <div className="flex items-center justify-between p-3 bg-white/40 dark:bg-white/10 rounded-xl">
+            <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-white/10 rounded-lg">
               <div className="flex items-center space-x-3">
                 {theme === 'dark' ? (
                   <Moon className="w-5 h-5 text-lavender" />
@@ -171,21 +171,21 @@ export default function LopProfile({ selectedLop, onChangeLop }: LopProfileProps
             <Button 
               onClick={onChangeLop}
               variant="outline" 
-              className="w-full rounded-xl border-peachy/50 text-peachy hover:bg-peachy/10"
+              className="w-full rounded-md border-peachy/30 text-peachy hover:bg-peachy/10"
             >
               Choose a Different Lop
             </Button>
             
             <Button 
               variant="outline" 
-              className="w-full rounded-xl border-lavender/50 text-lavender hover:bg-lavender/10"
+              className="w-full rounded-md border-lavender/30 text-lavender hover:bg-lavender/10"
             >
               Adjust Notification Preferences
             </Button>
             
             <Button 
               variant="outline" 
-              className="w-full rounded-xl border-mint/50 text-mint hover:bg-mint/10"
+              className="w-full rounded-md border-mint/30 text-mint hover:bg-mint/10"
             >
               Privacy & Data Settings
             </Button>
