@@ -2,124 +2,250 @@
 @tailwind components;
 @tailwind utilities;
 
+@variant dark (&:is(.dark *));
+
 :root {
+  --font-size: 14px;
+
   /* Solilop Pastel Color Palette */
   --background: #fefcf8;
+  /* Light cream/off-white */
   --foreground: #4a4a52;
+  /* Soft charcoal */
   --card: #ffffff;
+  --card-foreground: #4a4a52;
+  --popover: #ffffff;
+  --popover-foreground: #4a4a52;
+
+  /* Pastel Colors */
   --mint-green: #a8e6cf;
   --lavender: #c8a8e9;
   --peachy-pink: #ffc3a0;
   --warm-coral: #ff8a80;
   --soft-cream: #fefcf8;
+
+  --primary: #a8e6cf;
+  /* Mint green */
+  --primary-foreground: #4a4a52;
+  --secondary: #c8a8e9;
+  /* Lavender */
+  --secondary-foreground: #4a4a52;
   --muted: #f5f3f0;
   --muted-foreground: #8a8a92;
+  --accent: #ffc3a0;
+  /* Peachy pink */
+  --accent-foreground: #4a4a52;
+  --destructive: #ff8a80;
+  --destructive-foreground: #ffffff;
   --border: rgba(74, 74, 82, 0.1);
+  --input: transparent;
+  --input-background: #f9f7f4;
+  --switch-background: #e8e6e3;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
   --ring: rgba(168, 230, 207, 0.5);
+
+  /* Chart colors using pastels */
+  --chart-1: var(--mint-green);
+  --chart-2: var(--lavender);
+  --chart-3: var(--peachy-pink);
+  --chart-4: var(--warm-coral);
+  --chart-5: #b8d4ff;
+
   --radius: 1rem;
+  /* More rounded for organic feel */
+  --sidebar: #fefcf8;
+  --sidebar-foreground: #4a4a52;
+  --sidebar-primary: #a8e6cf;
+  --sidebar-primary-foreground: #4a4a52;
+  --sidebar-accent: #f5f3f0;
+  --sidebar-accent-foreground: #4a4a52;
+  --sidebar-border: rgba(74, 74, 82, 0.1);
+  --sidebar-ring: rgba(168, 230, 207, 0.5);
+}
+
+.dark {
+  --background: #2a2a32;
+  --foreground: #f5f3f0;
+  --card: #2a2a32;
+  --card-foreground: #f5f3f0;
+  --popover: #2a2a32;
+  --popover-foreground: #f5f3f0;
+  --primary: #7dd3ae;
+  /* Darker mint */
+  --primary-foreground: #f5f3f0;
+  --secondary: #a087c7;
+  /* Darker lavender */
+  --secondary-foreground: #f5f3f0;
+  --muted: #3a3a42;
+  --muted-foreground: #a8a8b0;
+  --accent: #e8a87c;
+  /* Darker peachy pink */
+  --accent-foreground: #f5f3f0;
+  --destructive: #e67a70;
+  --destructive-foreground: #f5f3f0;
+  --border: rgba(245, 243, 240, 0.1);
+  --input: #3a3a42;
+  --input-background: #3a3a42;
+  --switch-background: #4a4a52;
+  --ring: rgba(125, 211, 174, 0.5);
+}
+
+:root {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Custom Solilop colors */
+  --color-mint-green: var(--mint-green);
+  --color-lavender: var(--lavender);
+  --color-peachy-pink: var(--peachy-pink);
+  --color-warm-coral: var(--warm-coral);
+  --color-soft-cream: var(--soft-cream);
 }
 
 @layer base {
   * {
-    @apply border-gray-200;
+    @apply border-border outline-ring/50;
   }
 
   body {
     @apply bg-background text-foreground;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   }
+}
 
-  h1 {
-    font-size: 2rem;
-    font-weight: 500;
-    line-height: 1.4;
-    letter-spacing: -0.025em;
-  }
+/**
+ * Base typography with softer, rounded feel
+ */
+@layer base {
+  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
+    :is(h1) {
+      font-size: 2rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.4;
+      letter-spacing: -0.025em;
+    }
 
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 500;
-    line-height: 1.4;
-    letter-spacing: -0.025em;
-  }
+    :is(h2) {
+      font-size: 1.5rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.4;
+      letter-spacing: -0.025em;
+    }
 
-  h3 {
-    font-size: 1.25rem;
-    font-weight: 500;
-    line-height: 1.4;
-  }
+    :is(h3) {
+      font-size: 1.25rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.4;
+    }
 
-  p {
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.6;
+    :is(h4) {
+      font-size: 1.125rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.4;
+    }
+
+    :is(p) {
+      font-size: 1rem;
+      font-weight: var(--font-weight-normal);
+      line-height: 1.6;
+    }
+
+    :is(label) {
+      font-size: 1rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    :is(button) {
+      font-size: 1rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    :is(input, textarea) {
+      font-size: 1rem;
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
   }
 }
 
-@layer components {
-  .lop-bounce {
-    animation: bounce 2s infinite;
-  }
-  
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-  
-  .whisper-fade {
-    animation: fadeIn 0.5s ease-in;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .thought-input:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--ring);
-  }
-  
-  .gradient-text {
-    background: linear-gradient(135deg, var(--mint-green) 0%, var(--lavender) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .card-pastel {
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    backdrop-filter: blur(12px);
-  }
+html {
+  font-size: var(--font-size);
 }
 
+/* Custom utility classes for Solilop */
 @layer utilities {
-  .text-mint { color: var(--mint-green); }
-  .text-lavender { color: var(--lavender); }
-  .text-peachy { color: var(--peachy-pink); }
-  .text-coral { color: var(--warm-coral); }
-  .bg-mint { background-color: var(--mint-green); }
-  .bg-lavender { background-color: var(--lavender); }
-  .bg-peachy { background-color: var(--peachy-pink); }
-  .bg-coral { background-color: var(--warm-coral); }
-  .bg-soft-cream { background-color: var(--soft-cream); }
-  
-  /* Line clamp utilities */
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  .text-mint {
+    color: var(--color-mint-green);
   }
-  
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+
+  .text-lavender {
+    color: var(--color-lavender);
+  }
+
+  .text-peachy {
+    color: var(--color-peachy-pink);
+  }
+
+  .text-coral {
+    color: var(--color-warm-coral);
+  }
+
+  .bg-mint {
+    background-color: var(--color-mint-green);
+  }
+
+  .bg-lavender {
+    background-color: var(--color-lavender);
+  }
+
+  .bg-peachy {
+    background-color: var(--color-peachy-pink);
+  }
+
+  .bg-coral {
+    background-color: var(--color-warm-coral);
+  }
+
+  .bg-soft-cream {
+    background-color: var(--color-soft-cream);
   }
 }

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import LopCharacter from './LopCharacter';
-import type { LopPersonality } from '@/types';
-import { LOP_PERSONALITIES } from '@/utils/constants';
+import { Button } from './ui/button';
+import LopCharacter, { lopPersonalities, LopPersonality } from './LopCharacter';
+import { Heart, Users, MessageCircle, ArrowRight, Sparkles } from 'lucide-react';
 
 interface OnboardingProps {
   onComplete: (selectedLop: LopPersonality) => void;
 }
 
-const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
+export default function Onboarding({ onComplete }: OnboardingProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedLop, setSelectedLop] = useState<LopPersonality | null>(null);
 
@@ -20,11 +20,11 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
   };
 
   const WelcomeScreen = () => (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-br from-mint-green/20 via-background to-peachy-pink/20">
+    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-br from-mint/20 via-background to-peachy/20">
       <div className="text-center space-y-8 max-w-sm mx-auto">
         {/* Logo/App Name */}
         <div className="space-y-2">
-          <h1 className="text-4xl font-bold gradient-text">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-mint-green to-lavender bg-clip-text text-transparent">
             Solilop
           </h1>
           <p className="text-lg text-muted-foreground">Every thought finds an ear</p>
@@ -33,13 +33,13 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
         {/* Hero Lop */}
         <div className="relative">
           <LopCharacter 
-            personality={LOP_PERSONALITIES[0]} 
+            personality={lopPersonalities[0]} 
             size="xl" 
             animated={true}
             className="mx-auto"
           />
           <div className="absolute -top-2 -right-2">
-            <span className="text-2xl animate-pulse">✨</span>
+            <Sparkles className="w-6 h-6 text-coral animate-pulse" />
           </div>
         </div>
 
@@ -48,20 +48,21 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
           <p className="text-center text-muted-foreground">
             A gentle space where your thoughts meet caring ears
           </p>
-          <button 
+          <Button 
             onClick={nextStep}
-            className="w-full bg-warm-coral hover:bg-warm-coral/90 text-white rounded-2xl h-12 font-semibold transition-all"
+            className="w-full bg-coral hover:bg-coral/90 text-white rounded-2xl h-12"
+            size="lg"
           >
             Get Started
-            <span className="ml-2">→</span>
-          </button>
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
         </div>
       </div>
     </div>
   );
 
   const HowItWorksScreen = () => (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-br from-lavender/20 via-background to-mint-green/20">
+    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-br from-lavender/20 via-background to-mint/20">
       <div className="space-y-8 max-w-sm mx-auto">
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-bold">How it works</h2>
@@ -70,9 +71,9 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
 
         <div className="space-y-6">
           {/* Step 1 */}
-          <div className="flex items-center space-x-4 p-4 bg-white/50 rounded-2xl border border-mint-green/20">
-            <div className="w-12 h-12 bg-mint-green rounded-full flex items-center justify-center">
-              <span className="text-white text-xl">💬</span>
+          <div className="flex items-center space-x-4 p-4 bg-white/50 rounded-2xl border border-mint/20">
+            <div className="w-12 h-12 bg-mint rounded-full flex items-center justify-center">
+              <MessageCircle className="w-6 h-6 text-white" />
             </div>
             <div>
               <h3 className="font-medium">Share with your Lop</h3>
@@ -83,7 +84,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
           {/* Step 2 */}
           <div className="flex items-center space-x-4 p-4 bg-white/50 rounded-2xl border border-lavender/20">
             <div className="w-12 h-12 bg-lavender rounded-full flex items-center justify-center">
-              <span className="text-white text-xl">👥</span>
+              <Users className="w-6 h-6 text-white" />
             </div>
             <div>
               <h3 className="font-medium">Lop whispers feelings</h3>
@@ -92,9 +93,9 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
           </div>
 
           {/* Step 3 */}
-          <div className="flex items-center space-x-4 p-4 bg-white/50 rounded-2xl border border-peachy-pink/20">
-            <div className="w-12 h-12 bg-peachy-pink rounded-full flex items-center justify-center">
-              <span className="text-white text-xl">❤️</span>
+          <div className="flex items-center space-x-4 p-4 bg-white/50 rounded-2xl border border-peachy/20">
+            <div className="w-12 h-12 bg-peachy rounded-full flex items-center justify-center">
+              <Heart className="w-6 h-6 text-white" />
             </div>
             <div>
               <h3 className="font-medium">Receive gentle echoes</h3>
@@ -103,19 +104,20 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
           </div>
         </div>
 
-        <button 
+        <Button 
           onClick={nextStep}
-          className="w-full bg-warm-coral hover:bg-warm-coral/90 text-white rounded-2xl h-12 font-semibold transition-all"
+          className="w-full bg-coral hover:bg-coral/90 text-white rounded-2xl h-12"
+          size="lg"
         >
           Continue
-          <span className="ml-2">→</span>
-        </button>
+          <ArrowRight className="w-4 h-4 ml-2" />
+        </Button>
       </div>
     </div>
   );
 
   const ChooseLopScreen = () => (
-    <div className="flex flex-col justify-center min-h-screen p-6 bg-gradient-to-br from-peachy-pink/20 via-background to-warm-coral/20">
+    <div className="flex flex-col justify-center min-h-screen p-6 bg-gradient-to-br from-peachy/20 via-background to-coral/20">
       <div className="space-y-8 max-w-sm mx-auto">
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-bold">Choose your Lop</h2>
@@ -123,14 +125,14 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          {LOP_PERSONALITIES.map((lop) => (
+          {lopPersonalities.map((lop) => (
             <button
               key={lop.id}
               onClick={() => setSelectedLop(lop)}
               className={`p-4 rounded-2xl border-2 transition-all ${
                 selectedLop?.id === lop.id
-                  ? 'border-warm-coral bg-warm-coral/10 scale-105'
-                  : 'border-gray-200 bg-white/50 hover:border-warm-coral/50'
+                  ? 'border-coral bg-coral/10 scale-105'
+                  : 'border-border bg-white/50 hover:border-coral/50'
               }`}
             >
               <LopCharacter personality={lop} size="lg" className="mx-auto mb-3" />
@@ -141,13 +143,14 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
         </div>
 
         {selectedLop && (
-          <button 
+          <Button 
             onClick={nextStep}
-            className="w-full bg-warm-coral hover:bg-warm-coral/90 text-white rounded-2xl h-12 font-semibold transition-all"
+            className="w-full bg-coral hover:bg-coral/90 text-white rounded-2xl h-12"
+            size="lg"
           >
             This is my Lop
-            <span className="ml-2">❤️</span>
-          </button>
+            <Heart className="w-4 h-4 ml-2" />
+          </Button>
         )}
       </div>
     </div>
@@ -157,6 +160,4 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
   const CurrentScreen = screens[currentStep];
 
   return <CurrentScreen />;
-};
-
-export default Onboarding;
+}

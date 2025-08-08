@@ -1,5 +1,48 @@
 import React from 'react';
-import type { LopPersonality } from '@/types';
+
+export interface LopPersonality {
+  id: string;
+  name: string;
+  description: string;
+  primaryColor: string;
+  secondaryColor: string;
+  mood: 'happy' | 'thoughtful' | 'listening' | 'sleepy';
+}
+
+export const lopPersonalities: LopPersonality[] = [
+  {
+    id: 'bloom',
+    name: 'Bloom',
+    description: 'Gentle and nurturing, loves nature',
+    primaryColor: '#a8e6cf',
+    secondaryColor: '#7dd3ae',
+    mood: 'happy'
+  },
+  {
+    id: 'dream',
+    name: 'Dream',
+    description: 'Peaceful and wise, great listener',
+    primaryColor: '#c8a8e9',
+    secondaryColor: '#a087c7',
+    mood: 'thoughtful'
+  },
+  {
+    id: 'sunny',
+    name: 'Sunny',
+    description: 'Warm and encouraging, spreads joy',
+    primaryColor: '#ffc3a0',
+    secondaryColor: '#e8a87c',
+    mood: 'listening'
+  },
+  {
+    id: 'coral',
+    name: 'Coral',
+    description: 'Empathetic and caring, always there',
+    primaryColor: '#ff8a80',
+    secondaryColor: '#e67a70',
+    mood: 'happy'
+  }
+];
 
 interface LopCharacterProps {
   personality: LopPersonality;
@@ -9,13 +52,13 @@ interface LopCharacterProps {
   onClick?: () => void;
 }
 
-const LopCharacter: React.FC<LopCharacterProps> = ({ 
+export default function LopCharacter({ 
   personality, 
   size = 'md', 
   animated = false,
   className = '',
   onClick
-}) => {
+}: LopCharacterProps) {
   const sizeClasses = {
     sm: 'w-16 h-16',
     md: 'w-24 h-24',
@@ -62,7 +105,10 @@ const LopCharacter: React.FC<LopCharacterProps> = ({
   const eyeExpression = getEyeExpression(personality.mood);
 
   return (
-    <div className={`${sizeClasses[size]} ${className} flex items-center justify-center relative ${onClick ? 'cursor-pointer' : ''}`} onClick={onClick}>
+    <div 
+      className={`${sizeClasses[size]} ${className} flex items-center justify-center relative ${onClick ? 'cursor-pointer' : ''}`}
+      onClick={onClick}
+    >
       <svg
         viewBox="0 0 100 100"
         className={`w-full h-full ${animated ? 'animate-pulse' : ''}`}
@@ -186,6 +232,4 @@ const LopCharacter: React.FC<LopCharacterProps> = ({
       </svg>
     </div>
   );
-};
-
-export default LopCharacter;
+}

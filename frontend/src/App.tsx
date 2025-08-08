@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { ThemeProvider } from './components/ThemeProvider';
 import Onboarding from './components/Onboarding';
 import Dashboard from './components/Dashboard';
 import WhispersFeed from './components/WhispersFeed';
 import PersonalAlbum from './components/PersonalAlbum';
 import LopProfile from './components/LopProfile';
 import BottomNavigation from './components/BottomNavigation';
-import type { LopPersonality } from './types';
+import { LopPersonality, lopPersonalities } from './components/LopCharacter';
 
 export default function App() {
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
@@ -28,7 +29,11 @@ export default function App() {
 
   // Show onboarding if not completed
   if (!isOnboardingComplete || !selectedLop) {
-    return <Onboarding onComplete={handleOnboardingComplete} />;
+    return (
+      <ThemeProvider>
+        <Onboarding onComplete={handleOnboardingComplete} />
+      </ThemeProvider>
+    );
   }
 
   // Render appropriate screen based on navigation
@@ -48,9 +53,11 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {renderScreen()}
-      <BottomNavigation activeScreen={activeScreen} onNavigate={handleNavigate} />
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen bg-background">
+        {renderScreen()}
+        <BottomNavigation activeScreen={activeScreen} onNavigate={handleNavigate} />
+      </div>
+    </ThemeProvider>
   );
 }

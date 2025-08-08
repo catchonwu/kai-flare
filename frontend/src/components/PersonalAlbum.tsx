@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
-import type { Memory } from '@/types';
+import { Button } from './ui/button';
+import { Card } from './ui/card';
+import { Input } from './ui/input';
+import { Badge } from './ui/badge';
+import { Book, Search, Calendar, Heart, Smile, CloudRain, Sun, Moon } from 'lucide-react';
 
-const PersonalAlbum: React.FC = () => {
+interface MemoryEntry {
+  id: string;
+  content: string;
+  timestamp: Date;
+  mood: string;
+  tags: string[];
+  isHighlight: boolean;
+}
+
+export default function PersonalAlbum() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
 
-  const memories: Memory[] = [
+  const memories: MemoryEntry[] = [
     {
       id: '1',
       content: 'Feeling grateful for the small moments today. The way sunlight hit my coffee cup this morning made everything feel peaceful.',
@@ -45,25 +58,33 @@ const PersonalAlbum: React.FC = () => {
       mood: 'free',
       tags: ['nature', 'freedom', 'mindfulness'],
       isHighlight: true
+    },
+    {
+      id: '6',
+      content: 'Had trouble sleeping again. My mind won\'t quiet down. Maybe tomorrow I\'ll try that meditation app.',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7),
+      mood: 'restless',
+      tags: ['sleep', 'anxiety', 'self-care'],
+      isHighlight: false
     }
   ];
 
   const moodFilters = [
-    { label: 'All', value: null, color: 'text-muted-foreground' },
-    { label: 'Grateful', value: 'grateful', color: 'text-peachy-pink' },
-    { label: 'Contemplative', value: 'contemplative', color: 'text-lavender' },
-    { label: 'Accomplished', value: 'accomplished', color: 'text-mint-green' },
-    { label: 'Anxious', value: 'anxious', color: 'text-warm-coral' },
+    { label: 'All', value: null, icon: Heart, color: 'text-muted-foreground' },
+    { label: 'Grateful', value: 'grateful', icon: Sun, color: 'text-peachy' },
+    { label: 'Contemplative', value: 'contemplative', icon: Moon, color: 'text-lavender' },
+    { label: 'Accomplished', value: 'accomplished', icon: Smile, color: 'text-mint' },
+    { label: 'Anxious', value: 'anxious', icon: CloudRain, color: 'text-coral' },
   ];
 
   const getMoodGradient = (mood: string) => {
     const gradients = {
-      grateful: 'from-peachy-pink/30 to-peachy-pink/10',
+      grateful: 'from-peachy/30 to-peachy/10',
       contemplative: 'from-lavender/30 to-lavender/10',
-      accomplished: 'from-mint-green/30 to-mint-green/10',
-      anxious: 'from-warm-coral/20 to-warm-coral/10',
-      free: 'from-mint-green/20 to-lavender/20',
-      restless: 'from-lavender/20 to-warm-coral/20'
+      accomplished: 'from-mint/30 to-mint/10',
+      anxious: 'from-coral/20 to-coral/10',
+      free: 'from-mint/20 to-lavender/20',
+      restless: 'from-lavender/20 to-coral/20'
     };
     return gradients[mood as keyof typeof gradients] || 'from-white/50 to-white/30';
   };
@@ -91,12 +112,12 @@ const PersonalAlbum: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-peachy-pink/10 via-background to-mint-green/10 pb-24">
+    <div className="min-h-screen bg-gradient-to-br from-peachy/10 via-background to-mint/10 pb-24">
       {/* Header */}
       <div className="px-6 pt-8 pb-4 space-y-4">
         <div className="text-center">
           <h1 className="text-2xl font-bold flex items-center justify-center space-x-2">
-            <span className="text-peachy-pink">📖</span>
+            <Book className="w-6 h-6 text-peachy" />
             <span>Your Journey</span>
           </h1>
           <p className="text-muted-foreground">A gentle record of your thoughts and growth</p>
@@ -104,30 +125,36 @@ const PersonalAlbum: React.FC = () => {
 
         {/* Search */}
         <div className="relative">
-          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">🔍</span>
-          <input
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search your memories..."
-            className="w-full pl-10 pr-4 py-3 rounded-2xl border border-peachy-pink/20 bg-white/50 thought-input"
+            className="pl-10 rounded-2xl border-peachy/20 bg-white/50"
           />
         </div>
 
         {/* Mood Filters */}
         <div className="flex space-x-2 overflow-x-auto py-2">
-          {moodFilters.map((filter) => (
-            <button
-              key={filter.value || 'all'}
-              onClick={() => setSelectedMood(filter.value)}
-              className={`rounded-xl whitespace-nowrap px-4 py-2 text-sm font-medium transition-all ${
-                selectedMood === filter.value
-                  ? 'bg-warm-coral text-white'
-                  : `border border-peachy-pink/30 ${filter.color} hover:bg-peachy-pink/10 bg-white/50`
-              }`}
-            >
-              {filter.label}
-            </button>
-          ))}
+          {moodFilters.map((filter) => {
+            const Icon = filter.icon;
+            return (
+              <Button
+                key={filter.value || 'all'}
+                variant={selectedMood === filter.value ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setSelectedMood(filter.value)}
+                className={`rounded-xl whitespace-nowrap ${
+                  selectedMood === filter.value
+                    ? 'bg-coral text-white'
+                    : `border-peachy/30 ${filter.color} hover:bg-peachy/10`
+                }`}
+              >
+                <Icon className="w-4 h-4 mr-1" />
+                {filter.label}
+              </Button>
+            );
+          })}
         </div>
       </div>
 
@@ -135,22 +162,22 @@ const PersonalAlbum: React.FC = () => {
       {!selectedMood && !searchQuery && (
         <div className="px-6 pb-6">
           <h2 className="text-lg font-medium mb-3 flex items-center space-x-2">
-            <span className="text-warm-coral">❤️</span>
+            <Heart className="w-5 h-5 text-coral" />
             <span>Memory Highlights</span>
           </h2>
           <div className="flex space-x-3 overflow-x-auto py-2">
             {memories.filter(m => m.isHighlight).map((memory) => (
-              <div
+              <Card
                 key={memory.id}
-                className={`min-w-72 p-4 bg-gradient-to-br ${getMoodGradient(memory.mood)} border-white/20 rounded-2xl card-pastel`}
+                className={`min-w-72 p-4 bg-gradient-to-br ${getMoodGradient(memory.mood)} border-white/20 rounded-2xl`}
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/50">
+                    <Badge variant="secondary" className="text-xs bg-white/50">
                       {memory.mood}
-                    </span>
+                    </Badge>
                     <div className="flex items-center space-x-1 text-xs text-muted-foreground">
-                      <span>📅</span>
+                      <Calendar className="w-3 h-3" />
                       <span>{formatDate(memory.timestamp)}</span>
                     </div>
                   </div>
@@ -158,7 +185,7 @@ const PersonalAlbum: React.FC = () => {
                     {memory.content}
                   </p>
                 </div>
-              </div>
+              </Card>
             ))}
           </div>
         </div>
@@ -171,23 +198,23 @@ const PersonalAlbum: React.FC = () => {
         </h2>
 
         {filteredMemories.map((memory) => (
-          <div
+          <Card
             key={memory.id}
-            className={`p-5 bg-gradient-to-br ${getMoodGradient(memory.mood)} border-white/20 rounded-2xl hover:shadow-lg transition-all duration-300 card-pastel`}
+            className={`p-5 bg-gradient-to-br ${getMoodGradient(memory.mood)} border-white/20 rounded-2xl hover:shadow-lg transition-all duration-300`}
           >
             <div className="space-y-4">
               {/* Header */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <span className="px-3 py-1 rounded-full text-xs font-medium capitalize bg-white/50">
+                  <Badge variant="secondary" className="text-xs bg-white/50 capitalize">
                     {memory.mood}
-                  </span>
+                  </Badge>
                   {memory.isHighlight && (
-                    <span className="text-warm-coral">❤️</span>
+                    <Heart className="w-4 h-4 text-coral fill-current" />
                   )}
                 </div>
                 <div className="flex items-center space-x-1 text-xs text-muted-foreground">
-                  <span>📅</span>
+                  <Calendar className="w-3 h-3" />
                   <span>{formatDate(memory.timestamp)}</span>
                 </div>
               </div>
@@ -200,21 +227,22 @@ const PersonalAlbum: React.FC = () => {
               {/* Tags */}
               <div className="flex flex-wrap gap-2">
                 {memory.tags.map((tag) => (
-                  <span
+                  <Badge
                     key={tag}
-                    className="px-2 py-1 rounded-lg text-xs bg-white/30 border border-white/40 text-foreground/70"
+                    variant="outline"
+                    className="text-xs bg-white/30 border-white/40 text-foreground/70"
                   >
                     #{tag}
-                  </span>
+                  </Badge>
                 ))}
               </div>
             </div>
-          </div>
+          </Card>
         ))}
 
         {filteredMemories.length === 0 && (
           <div className="text-center py-12 space-y-4">
-            <span className="text-6xl text-muted-foreground/50">📖</span>
+            <Book className="w-12 h-12 text-muted-foreground/50 mx-auto" />
             <div>
               <h3 className="font-medium text-muted-foreground">No memories found</h3>
               <p className="text-sm text-muted-foreground/70">
@@ -229,6 +257,4 @@ const PersonalAlbum: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default PersonalAlbum;
+}

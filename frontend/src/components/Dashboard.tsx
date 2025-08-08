@@ -1,45 +1,49 @@
 import React, { useState } from 'react';
-import LopCharacter from './LopCharacter';
-import type { LopPersonality, Whisper } from '@/types';
+import { Button } from './ui/button';
+import { Card } from './ui/card';
+import { Textarea } from './ui/textarea';
+import LopCharacter, { LopPersonality } from './LopCharacter';
+import { Heart, Edit3, Clock, Sparkles } from 'lucide-react';
+
+interface WhisperCard {
+  id: string;
+  content: string;
+  timestamp: Date;
+  mood: string;
+}
 
 interface DashboardProps {
   selectedLop: LopPersonality;
   onNavigate: (screen: string) => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ selectedLop, onNavigate }) => {
+export default function Dashboard({ selectedLop, onNavigate }: DashboardProps) {
   const [thoughtText, setThoughtText] = useState('');
   const [isSharing, setIsSharing] = useState(false);
 
   // Mock recent whispers received
-  const recentWhispers: Whisper[] = [
+  const recentWhispers: WhisperCard[] = [
     {
       id: '1',
       content: 'Someone out there felt overwhelmed by Monday mornings too... You\'re not alone in finding new weeks challenging. 💚',
       timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
-      mood: 'understanding',
-      reactions: 23,
-      hasReacted: false
+      mood: 'understanding'
     },
     {
       id: '2',
       content: 'A fellow soul shared that small victories matter... Even tiny steps forward are worth celebrating. ✨',
       timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
-      mood: 'encouraging',
-      reactions: 15,
-      hasReacted: true
+      mood: 'encouraging'
     },
     {
       id: '3',
       content: 'Someone felt grateful for unexpected kindness today... The world has gentle moments waiting to surprise us. 🌸',
       timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5), // 5 hours ago
-      mood: 'warm',
-      reactions: 31,
-      hasReacted: false
+      mood: 'warm'
     }
   ];
 
-  const handleShare = async () => {
+  const handleShare = () => {
     if (!thoughtText.trim()) return;
     
     setIsSharing(true);
@@ -66,7 +70,7 @@ const Dashboard: React.FC<DashboardProps> = ({ selectedLop, onNavigate }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-mint-green/10 via-background to-peachy-pink/10">
+    <div className="min-h-screen bg-gradient-to-br from-mint/10 via-background to-peachy/10">
       {/* Header with Lop */}
       <div className="px-6 pt-8 pb-4">
         <div className="flex items-center justify-between">
@@ -84,7 +88,7 @@ const Dashboard: React.FC<DashboardProps> = ({ selectedLop, onNavigate }) => {
             />
             {isSharing && (
               <div className="absolute -top-1 -right-1">
-                <span className="text-lg animate-spin">✨</span>
+                <Sparkles className="w-4 h-4 text-coral animate-spin" />
               </div>
             )}
           </div>
@@ -93,20 +97,18 @@ const Dashboard: React.FC<DashboardProps> = ({ selectedLop, onNavigate }) => {
 
       {/* Main Input Area */}
       <div className="px-6 pb-6">
-        <div className="card-pastel p-4">
+        <Card className="p-4 bg-white/70 dark:bg-card/70 border-mint/20 rounded-2xl">
           <div className="space-y-4">
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <span>✏️</span>
+              <Edit3 className="w-4 h-4" />
               <span>{selectedLop.name} is listening...</span>
             </div>
             
-            <textarea
+            <Textarea
               value={thoughtText}
               onChange={(e) => setThoughtText(e.target.value)}
               placeholder="What's on your mind today?"
-              className="w-full p-4 border-none bg-transparent text-base resize-none thought-input min-h-24"
-              disabled={isSharing}
-              maxLength={500}
+              className="min-h-24 border-none bg-transparent text-base resize-none focus:ring-0 placeholder:text-muted-foreground/60"
             />
             
             <div className="flex items-center justify-between">
@@ -115,59 +117,68 @@ const Dashboard: React.FC<DashboardProps> = ({ selectedLop, onNavigate }) => {
               </span>
               
               <div className="flex space-x-2">
-                <button
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="rounded-xl border-peachy/50 text-peachy hover:bg-peachy/10"
                   disabled={!thoughtText.trim() || isSharing}
-                  className="px-4 py-2 rounded-xl border border-peachy-pink/50 text-peachy-pink hover:bg-peachy-pink/10 text-sm transition-all disabled:opacity-50"
                 >
                   Save Draft
-                </button>
+                </Button>
                 
-                <button
+                <Button
                   onClick={handleShare}
                   disabled={!thoughtText.trim() || isSharing}
-                  className="bg-warm-coral hover:bg-warm-coral/90 text-white rounded-xl px-6 py-2 text-sm font-semibold transition-all disabled:opacity-50"
+                  className="bg-coral hover:bg-coral/90 text-white rounded-xl px-6"
+                  size="sm"
                 >
                   {isSharing ? 'Sharing...' : 'Share with Lop'}
-                </button>
+                </Button>
               </div>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* Recent Whispers */}
       <div className="px-6 space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-medium">Recent whispers</h2>
-          <button 
+          <Button 
+            variant="ghost" 
+            size="sm" 
             onClick={() => onNavigate('whispers')}
-            className="text-sm text-warm-coral hover:text-warm-coral/80 transition-colors"
+            className="text-coral hover:text-coral/80"
           >
             See all
-          </button>
+          </Button>
         </div>
 
         <div className="space-y-3">
           {recentWhispers.slice(0, 3).map((whisper) => (
-            <div 
+            <Card 
               key={whisper.id}
-              className="p-4 bg-gradient-to-r from-white/60 to-lavender/20 border border-lavender/20 rounded-2xl hover:shadow-md transition-shadow card-pastel"
+              className="p-4 bg-gradient-to-r from-white/60 dark:from-white/10 to-lavender/20 border-lavender/20 rounded-2xl hover:shadow-md transition-shadow"
             >
               <div className="space-y-2">
                 <p className="text-sm leading-relaxed">{whisper.content}</p>
                 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2 text-xs text-muted-foreground">
-                    <span>🕒</span>
+                    <Clock className="w-3 h-3" />
                     <span>{formatTimeAgo(whisper.timestamp)}</span>
                   </div>
                   
-                  <button className="h-8 w-8 p-0 text-warm-coral hover:text-warm-coral/80 hover:bg-warm-coral/10 rounded-full transition-colors">
-                    <span className="text-sm">❤️</span>
-                  </button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="h-8 w-8 p-0 text-coral hover:text-coral/80 hover:bg-coral/10"
+                  >
+                    <Heart className="w-4 h-4" />
+                  </Button>
                 </div>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       </div>
@@ -176,6 +187,4 @@ const Dashboard: React.FC<DashboardProps> = ({ selectedLop, onNavigate }) => {
       <div className="h-24" />
     </div>
   );
-};
-
-export default Dashboard;
+}

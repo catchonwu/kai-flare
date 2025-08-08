@@ -1,45 +1,197 @@
 import React from 'react';
-import LopCharacter from './LopCharacter';
-import type { LopPersonality } from '@/types';
+import { Button } from './ui/button';
+import { Card } from './ui/card';
+import { Progress } from './ui/progress';
+import { Switch } from './ui/switch';
+import { useTheme } from './ThemeProvider';
+import LopCharacter, { LopPersonality } from './LopCharacter';
+import { Heart, Calendar, MessageCircle, TrendingUp, Palette, Settings, Moon, Sun } from 'lucide-react';
 
 interface LopProfileProps {
   selectedLop: LopPersonality;
   onChangeLop: () => void;
 }
 
-const LopProfile: React.FC<LopProfileProps> = ({ selectedLop, onChangeLop }) => {
+export default function LopProfile({ selectedLop, onChangeLop }: LopProfileProps) {
+  const { theme, toggleTheme } = useTheme();
+
+  // Mock relationship data
+  const relationshipStats = {
+    daysTogether: 12,
+    thoughtsShared: 28,
+    whispersReceived: 45,
+    moodInsights: 8
+  };
+
+  const personalityTraits = [
+    { trait: 'Empathy', level: 95, color: 'bg-mint' },
+    { trait: 'Wisdom', level: 88, color: 'bg-lavender' },
+    { trait: 'Warmth', level: 92, color: 'bg-peachy' },
+    { trait: 'Patience', level: 96, color: 'bg-coral' }
+  ];
+
+  const recentInsights = [
+    'You tend to reflect more deeply on rainy days',
+    'Morning thoughts are often more optimistic',
+    'You\'re becoming more self-compassionate over time',
+    'Creative activities seem to lift your mood'
+  ];
+
   return (
-    <div className="p-4 max-w-2xl mx-auto text-center min-h-screen bg-gradient-to-br from-mint-green/10 via-background to-peachy-pink/10">
-      <div className="pt-8">
-        <LopCharacter
-          personality={selectedLop}
-          size="xl"
-          animated={true}
-          className="mx-auto mb-4"
-        />
-        <h2 className="text-2xl font-bold mb-2">Meet {selectedLop.name}</h2>
-        <p className="text-lg mb-6 text-muted-foreground">{selectedLop.description}</p>
+    <div className="min-h-screen bg-gradient-to-br from-coral/10 via-background to-lavender/10 pb-24">
+      {/* Header */}
+      <div className="px-6 pt-8 pb-6 text-center space-y-4">
+        <LopCharacter personality={selectedLop} size="xl" className="mx-auto" />
+        <div>
+          <h1 className="text-2xl font-bold">{selectedLop.name}</h1>
+          <p className="text-muted-foreground">{selectedLop.description}</p>
+        </div>
       </div>
 
-      <div className="card-pastel p-6 mb-6">
-        <p className="mb-4 leading-relaxed">
-          {selectedLop.name} is your AI companion who listens to your thoughts and helps create connections through the whisper network.
-        </p>
-        <p className="leading-relaxed">
-          Every thought you share helps someone else feel less alone, and their thoughts might just be the whisper you need to hear today.
-        </p>
+      {/* Relationship Stats */}
+      <div className="px-6 pb-6">
+        <Card className="p-5 bg-white/70 dark:bg-card/70 border-mint/20 rounded-2xl">
+          <h2 className="text-lg font-medium mb-4 flex items-center space-x-2">
+            <Heart className="w-5 h-5 text-coral" />
+            <span>Your Journey Together</span>
+          </h2>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <div className="text-center space-y-1">
+              <div className="w-12 h-12 bg-mint/20 rounded-full flex items-center justify-center mx-auto">
+                <Calendar className="w-6 h-6 text-mint" />
+              </div>
+              <div className="text-2xl font-bold text-mint">{relationshipStats.daysTogether}</div>
+              <div className="text-xs text-muted-foreground">Days together</div>
+            </div>
+            
+            <div className="text-center space-y-1">
+              <div className="w-12 h-12 bg-peachy/20 rounded-full flex items-center justify-center mx-auto">
+                <MessageCircle className="w-6 h-6 text-peachy" />
+              </div>
+              <div className="text-2xl font-bold text-peachy">{relationshipStats.thoughtsShared}</div>
+              <div className="text-xs text-muted-foreground">Thoughts shared</div>
+            </div>
+            
+            <div className="text-center space-y-1">
+              <div className="w-12 h-12 bg-lavender/20 rounded-full flex items-center justify-center mx-auto">
+                <Heart className="w-6 h-6 text-lavender" />
+              </div>
+              <div className="text-2xl font-bold text-lavender">{relationshipStats.whispersReceived}</div>
+              <div className="text-xs text-muted-foreground">Whispers received</div>
+            </div>
+            
+            <div className="text-center space-y-1">
+              <div className="w-12 h-12 bg-coral/20 rounded-full flex items-center justify-center mx-auto">
+                <TrendingUp className="w-6 h-6 text-coral" />
+              </div>
+              <div className="text-2xl font-bold text-coral">{relationshipStats.moodInsights}</div>
+              <div className="text-xs text-muted-foreground">Mood insights</div>
+            </div>
+          </div>
+        </Card>
       </div>
 
-      <button
-        onClick={onChangeLop}
-        className="px-6 py-3 bg-warm-coral hover:bg-warm-coral/90 text-white rounded-xl font-medium transition-colors"
-      >
-        Choose Different Lop
-      </button>
+      {/* Personality Traits */}
+      <div className="px-6 pb-6">
+        <Card className="p-5 bg-white/70 dark:bg-card/70 border-lavender/20 rounded-2xl">
+          <h2 className="text-lg font-medium mb-4 flex items-center space-x-2">
+            <Palette className="w-5 h-5 text-lavender" />
+            <span>{selectedLop.name}'s Personality</span>
+          </h2>
+          
+          <div className="space-y-4">
+            {personalityTraits.map((trait) => (
+              <div key={trait.trait} className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="font-medium">{trait.trait}</span>
+                  <span className="text-muted-foreground">{trait.level}%</span>
+                </div>
+                <Progress 
+                  value={trait.level} 
+                  className="h-2 bg-white/50 dark:bg-muted/50"
+                />
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
 
-      <div className="h-24" />
+      {/* Lop Insights */}
+      <div className="px-6 pb-6">
+        <Card className="p-5 bg-gradient-to-br from-peachy/20 to-coral/20 border-peachy/20 rounded-2xl">
+          <h2 className="text-lg font-medium mb-4 flex items-center space-x-2">
+            <TrendingUp className="w-5 h-5 text-coral" />
+            <span>{selectedLop.name}'s Insights About You</span>
+          </h2>
+          
+          <div className="space-y-3">
+            {recentInsights.map((insight, index) => (
+              <div key={index} className="flex items-start space-x-3 p-3 bg-white/40 dark:bg-white/10 rounded-xl">
+                <div className="w-2 h-2 bg-coral rounded-full mt-2 flex-shrink-0" />
+                <p className="text-sm leading-relaxed">{insight}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+
+      {/* Customization */}
+      <div className="px-6 space-y-4">
+        <Card className="p-5 bg-white/70 dark:bg-card/70 border-coral/20 rounded-2xl">
+          <h2 className="text-lg font-medium mb-4 flex items-center space-x-2">
+            <Settings className="w-5 h-5 text-coral" />
+            <span>Customize Your Experience</span>
+          </h2>
+          
+          <div className="space-y-4">
+            {/* Dark Mode Toggle */}
+            <div className="flex items-center justify-between p-3 bg-white/40 dark:bg-white/10 rounded-xl">
+              <div className="flex items-center space-x-3">
+                {theme === 'dark' ? (
+                  <Moon className="w-5 h-5 text-lavender" />
+                ) : (
+                  <Sun className="w-5 h-5 text-peachy" />
+                )}
+                <div>
+                  <p className="font-medium">Dark Mode</p>
+                  <p className="text-sm text-muted-foreground">
+                    {theme === 'dark' ? 'Gentle darkness for evening comfort' : 'Soft light for daytime peace'}
+                  </p>
+                </div>
+              </div>
+              <Switch
+                checked={theme === 'dark'}
+                onCheckedChange={toggleTheme}
+                className="data-[state=checked]:bg-lavender"
+              />
+            </div>
+
+            {/* Other Settings */}
+            <Button 
+              onClick={onChangeLop}
+              variant="outline" 
+              className="w-full rounded-xl border-peachy/50 text-peachy hover:bg-peachy/10"
+            >
+              Choose a Different Lop
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              className="w-full rounded-xl border-lavender/50 text-lavender hover:bg-lavender/10"
+            >
+              Adjust Notification Preferences
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              className="w-full rounded-xl border-mint/50 text-mint hover:bg-mint/10"
+            >
+              Privacy & Data Settings
+            </Button>
+          </div>
+        </Card>
+      </div>
     </div>
   );
-};
-
-export default LopProfile;
+}
