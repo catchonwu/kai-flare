@@ -3,8 +3,9 @@ import { Card } from './ui/card';
 import { Progress } from './ui/progress';
 import { Switch } from './ui/switch';
 import { useTheme } from 'next-themes';
+import { useAuth } from '../contexts/AuthContext';
 import LopCharacter, { LopPersonality } from './LopCharacter';
-import { Heart, Calendar, MessageCircle, TrendingUp, Palette, Settings, Moon, Sun } from 'lucide-react';
+import { Heart, Calendar, MessageCircle, TrendingUp, Palette, Settings, Moon, Sun, LogOut, User as UserIcon } from 'lucide-react';
 
 interface LopProfileProps {
   selectedLop: LopPersonality;
@@ -13,7 +14,18 @@ interface LopProfileProps {
 
 export default function LopProfile({ selectedLop, onChangeLop }: LopProfileProps) {
   const { theme, setTheme } = useTheme();
+  const { user, signOut, isAuthenticated } = useAuth();
   const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+  
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      // Optionally trigger app refresh or redirect
+      window.location.reload();
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  };
 
   // Mock relationship data
   const relationshipStats = {
@@ -191,6 +203,30 @@ export default function LopProfile({ selectedLop, onChangeLop }: LopProfileProps
             >
               Privacy & Data Settings
             </Button>
+            
+            {/* User info and logout */}
+            {isAuthenticated && user && user.id !== 'guest' && (
+              <>
+                <div className="p-3 bg-white/60 dark:bg-white/10 rounded-lg border border-border/20">
+                  <div className="flex items-center space-x-3">
+                    <UserIcon className="w-5 h-5 text-muted-foreground" />
+                    <div className="flex-1">
+                      <p className="font-medium text-sm">{user.name}</p>
+                      <p className="text-xs text-muted-foreground">{user.email}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <Button 
+                  onClick={handleSignOut}
+                  variant="outline" 
+                  className="w-full rounded-md border-coral/30 text-coral hover:bg-coral/10"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign Out
+                </Button>
+              </>
+            )}
           </div>
         </Card>
       </div>
