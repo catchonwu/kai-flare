@@ -10,13 +10,13 @@ bucket = "./public"
 include = ["**/*"]
 exclude = ["*.map"]
 
-# Custom domain configuration
+# Custom domain configuration - commented out for local development
 # Add your custom domain here after setting up DNS in Cloudflare
 # Docs: https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
-routes = [
-  { pattern = "solilop.com/*", custom_domain = true },
-  { pattern = "www.solilop.com/*", custom_domain = true }
-]
+# routes = [
+#   { pattern = "solilop.com/*", custom_domain = true },
+#   { pattern = "www.solilop.com/*", custom_domain = true }
+# ]
 
 # Automatically place your workloads in an optimal location to minimize latency.
 # If you are running back-end logic in a Worker, running it closer to your back-end infrastructure

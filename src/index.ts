@@ -1,10 +1,13 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { getAssetFromKV, serveSinglePageApp } from '@cloudflare/kv-asset-handler';
+import { getAssetFromKV } from '@cloudflare/kv-asset-handler';
 import auth from './routes/auth';
 import thoughts from './routes/thoughts';
 import whispers from './routes/whispers';
 import lop from './routes/lop';
+
+// @ts-ignore
+import manifestJSON from '__STATIC_CONTENT_MANIFEST';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -29,26 +32,42 @@ app.route('/api/lop', lop);
 // Handle static assets and SPA routing
 app.get('*', async (c) => {
   try {
+    const assetManifest = JSON.parse(manifestJSON);
+    
     // Serve static assets from KV
-    return await getAssetFromKV(
+    const response = await getAssetFromKV(
       {
         request: c.req.raw,
-        waitUntil(promise) {
-          return c.executionCtx.waitUntil(promise);
-        },
+        waitUntil: (promise) => c.executionCtx.waitUntil(promise),
       },
       {
-        mapRequestToAsset: serveSinglePageApp,
-        cacheControl: {
-          browserTTL: 60 * 60 * 24 * 365, // 1 year
-          edgeTTL: 60 * 60 * 24 * 365, // 1 year
-          bypassCache: false,
+        ASSET_NAMESPACE: c.env.__STATIC_CONTENT,
+        ASSET_MANIFEST: assetManifest,
+        mapRequestToAsset: (request) => {
+          const url = new URL(request.url);
+          const pathname = url.pathname;
+          
+          // Skip API routes
+          if (pathname.startsWith('/api/')) {
+            return request;
+          }
+          
+          // For files with extensions, serve as-is
+          if (pathname.match(/\.[a-zA-Z0-9]+$/)) {
+            return request;
+          }
+          
+          // For SPA routes, serve index.html
+          url.pathname = '/index.html';
+          return new Request(url.toString(), request);
         },
       }
     );
+    
+    return response;
   } catch (e) {
-    // If asset not found, return 404
-    return c.notFound();
+    // Fallback to 404
+    return c.text('Not Found', 404);
   }
 });
 

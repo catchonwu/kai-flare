@@ -1,7 +1,7 @@
 {
   "name": "solilop-mvp",
   "scripts": {
-    "dev": "wrangler dev",
+    "dev": "npm run build:frontend && wrangler dev",
     "dev:frontend": "cd frontend && npm run dev",
     "build:frontend": "cd frontend && npm run build",
     "deploy": "npm run build:frontend && wrangler deploy --minify",
