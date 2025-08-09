@@ -6,9 +6,11 @@
   "main": "src/index.tsx",
   "scripts": {
     "dev": "vite",
+    "dev:watch": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit --watch"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.11",
