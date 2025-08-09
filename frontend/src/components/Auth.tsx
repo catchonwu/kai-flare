@@ -16,7 +16,7 @@ interface AuthProps {
 }
 
 export default function Auth({ onSkipAuth, onAuthSuccess, showAsPostOnboarding = false, selectedLop }: AuthProps) {
-  const [isLogin, setIsLogin] = useState(true);
+  const [viewMode, setViewMode] = useState<'guest' | 'login' | 'signup'>('guest');
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -28,6 +28,8 @@ export default function Auth({ onSkipAuth, onAuthSuccess, showAsPostOnboarding =
   const [validationError, setValidationError] = useState('');
 
   const { signIn, signUp, isLoading, error, clearError } = useAuth();
+  
+  const isLogin = viewMode === 'login';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -87,8 +89,20 @@ export default function Auth({ onSkipAuth, onAuthSuccess, showAsPostOnboarding =
     }
   };
 
-  const switchMode = () => {
-    setIsLogin(!isLogin);
+  const switchToLogin = () => {
+    setViewMode('login');
+    setFormData({
+      email: '',
+      password: '',
+      name: '',
+      confirmPassword: ''
+    });
+    clearError();
+    setValidationError('');
+  };
+
+  const switchToSignup = () => {
+    setViewMode('signup');
     setFormData({
       email: '',
       password: '',
@@ -124,22 +138,87 @@ export default function Auth({ onSkipAuth, onAuthSuccess, showAsPostOnboarding =
               </h1>
             </div>
             <p className="text-muted-foreground">
-              {showAsPostOnboarding
-                ? (isLogin 
-                    ? 'Sign in to save your Lop companion and thoughts'
-                    : 'Create an account to keep your journey with your Lop safe'
-                  )
-                : (isLogin 
-                    ? 'Welcome back to your sanctuary' 
-                    : 'Create your gentle space'
-                  )
+              {viewMode === 'guest' 
+                ? 'Your gentle space for thoughts and reflection'
+                : showAsPostOnboarding
+                  ? (isLogin 
+                      ? 'Sign in to save your Lop companion and thoughts'
+                      : 'Create an account to keep your journey with your Lop safe'
+                    )
+                  : (isLogin 
+                      ? 'Welcome back to your sanctuary' 
+                      : 'Create your gentle space'
+                    )
               }
             </p>
           </div>
         </div>
 
-        {/* Demo credentials info */}
-        {isLogin && (
+        {/* Guest View */}
+        {viewMode === 'guest' && onSkipAuth && (
+          <>
+            <Card className="p-8 bg-white/80 dark:bg-card/80 border-lavender/20 rounded-lg shadow-sm">
+              <div className="space-y-6">
+                <div className="text-center space-y-3">
+                  <h2 className="text-xl font-semibold text-foreground">
+                    Start Your Journey
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                    Explore Solilop and meet your Lop companion. You can create an account anytime to save your progress.
+                  </p>
+                </div>
+                
+                <Button
+                  onClick={onSkipAuth}
+                  disabled={isLoading}
+                  className="w-full h-14 bg-gradient-to-r from-mint to-lavender hover:from-mint/90 hover:to-lavender/90 text-white font-semibold text-lg rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+                >
+                  {showAsPostOnboarding ? '✨ Keep Exploring' : '🌟 Start as Guest'}
+                </Button>
+
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t border-border/20" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-white dark:bg-card px-3 text-muted-foreground">
+                      or
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <Button
+                    variant="outline"
+                    onClick={switchToLogin}
+                    disabled={isLoading}
+                    className="h-12 border-coral/30 hover:bg-coral/10 hover:border-coral/50 text-coral font-medium"
+                  >
+                    Sign In
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={switchToSignup}
+                    disabled={isLoading}
+                    className="h-12 border-peachy/30 hover:bg-peachy/10 hover:border-peachy/50 text-peachy font-medium"
+                  >
+                    Sign Up
+                  </Button>
+                </div>
+              </div>
+            </Card>
+
+            {/* Demo info for guest view */}
+            <div className="text-center">
+              <p className="text-xs text-muted-foreground">
+                Try our demo account: {AUTH_CONFIG.demo.email} / {AUTH_CONFIG.demo.password}
+              </p>
+            </div>
+          </>
+        )}
+
+        {/* Demo credentials info for login view */}
+        {viewMode === 'login' && (
           <div className="p-3 bg-mint/10 rounded-lg text-center">
             <p className="text-sm text-mint">
               <strong>Demo:</strong> {AUTH_CONFIG.demo.email} / {AUTH_CONFIG.demo.password}
@@ -148,10 +227,11 @@ export default function Auth({ onSkipAuth, onAuthSuccess, showAsPostOnboarding =
         )}
 
         {/* Auth Form */}
-        <Card className="p-6 bg-white/80 dark:bg-card/80 border-mint/10 rounded-lg shadow-sm">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Name field for signup */}
-            {!isLogin && (
+        {viewMode !== 'guest' && (
+          <Card className="p-6 bg-white/80 dark:bg-card/80 border-mint/10 rounded-lg shadow-sm">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Name field for signup */}
+              {viewMode === 'signup' && (
               <div className="space-y-2">
                 <Label htmlFor="name">Your name</Label>
                 <Input
@@ -214,7 +294,7 @@ export default function Auth({ onSkipAuth, onAuthSuccess, showAsPostOnboarding =
             </div>
 
             {/* Confirm password field for signup */}
-            {!isLogin && (
+            {viewMode === 'signup' && (
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirm password</Label>
                 <div className="relative">
@@ -271,40 +351,37 @@ export default function Auth({ onSkipAuth, onAuthSuccess, showAsPostOnboarding =
             </Button>
           </form>
         </Card>
+        )}
 
         {/* Switch between login/signup */}
-        <div className="text-center space-y-3">
-          <p className="text-muted-foreground">
-            {isLogin ? "Don't have an account? " : "Already have an account? "}
-            <Button
-              variant="link"
-              className="p-0 h-auto text-coral hover:text-coral/80"
-              onClick={switchMode}
-              disabled={isLoading}
-            >
-              {isLogin ? 'Sign up' : 'Sign in'}
-            </Button>
-          </p>
-          
-          {onSkipAuth && (
-            <div className="pt-4 border-t border-border/20">
-              <p className="text-xs text-muted-foreground mb-2">
-                {showAsPostOnboarding 
-                  ? 'Want to continue exploring first?' 
-                  : 'Just want to explore?'
-                }
-              </p>
+        {viewMode !== 'guest' && (
+          <div className="text-center space-y-3">
+            <p className="text-muted-foreground">
+              {viewMode === 'login' ? "Don't have an account? " : "Already have an account? "}
               <Button
-                variant="ghost"
-                onClick={onSkipAuth}
+                variant="link"
+                className="p-0 h-auto text-coral hover:text-coral/80"
+                onClick={viewMode === 'login' ? switchToSignup : switchToLogin}
                 disabled={isLoading}
-                className="text-lavender hover:text-lavender/80 hover:bg-lavender/10"
               >
-                {showAsPostOnboarding ? 'Keep Exploring' : 'Continue as Guest'}
+                {viewMode === 'login' ? 'Sign up' : 'Sign in'}
               </Button>
-            </div>
-          )}
-        </div>
+            </p>
+            
+            {onSkipAuth && (
+              <div className="pt-4 border-t border-border/20">
+                <Button
+                  variant="ghost"
+                  onClick={onSkipAuth}
+                  disabled={isLoading}
+                  className="text-lavender hover:text-lavender/80 hover:bg-lavender/10"
+                >
+                  ← Back to Guest Mode
+                </Button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

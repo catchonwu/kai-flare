@@ -5,7 +5,7 @@
 @variant dark (&:is(.dark *));
 
 :root {
-  --font-size: 14px;
+  --font-size: 16px;
 
   /* Solilop Pastel Color Palette */
   --background: #fefcf8;
@@ -156,51 +156,51 @@
 @layer base {
   :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
     :is(h1) {
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-weight: var(--font-weight-medium);
       line-height: 1.4;
       letter-spacing: -0.025em;
     }
 
     :is(h2) {
-      font-size: 1.5rem;
+      font-size: 2rem;
       font-weight: var(--font-weight-medium);
       line-height: 1.4;
       letter-spacing: -0.025em;
     }
 
     :is(h3) {
-      font-size: 1.25rem;
+      font-size: 1.5rem;
       font-weight: var(--font-weight-medium);
       line-height: 1.4;
     }
 
     :is(h4) {
-      font-size: 1.125rem;
+      font-size: 1.25rem;
       font-weight: var(--font-weight-medium);
       line-height: 1.4;
     }
 
     :is(p) {
-      font-size: 1rem;
+      font-size: 1.125rem;
       font-weight: var(--font-weight-normal);
       line-height: 1.6;
     }
 
     :is(label) {
-      font-size: 1rem;
+      font-size: 1.125rem;
       font-weight: var(--font-weight-medium);
       line-height: 1.5;
     }
 
     :is(button) {
-      font-size: 1rem;
+      font-size: 1.125rem;
       font-weight: var(--font-weight-medium);
       line-height: 1.5;
     }
 
     :is(input, textarea) {
-      font-size: 1rem;
+      font-size: 1.125rem;
       font-weight: var(--font-weight-normal);
       line-height: 1.5;
     }
