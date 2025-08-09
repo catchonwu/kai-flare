@@ -181,9 +181,6 @@ export default function Auth({ onSkipAuth, onAuthSuccess, showAsPostOnboarding =
                     <span className="w-full border-t border-border/20" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-white dark:bg-card px-3 text-muted-foreground">
-                      or
-                    </span>
                   </div>
                 </div>
 
