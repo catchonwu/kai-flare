@@ -4,6 +4,8 @@ import { Card } from './ui/card';
 import { Textarea } from './ui/textarea';
 import LopCharacter, { LopPersonality } from './LopCharacter';
 import { ThemeToggle } from './ThemeToggle';
+import { useAuth } from '../contexts/AuthContext';
+import ThoughtsApi from '../api/thoughts';
 import { Heart, Edit3, Clock, Sparkles } from 'lucide-react';
 
 interface WhisperCard {
@@ -21,6 +23,8 @@ interface DashboardProps {
 export default function Dashboard({ selectedLop, onNavigate }: DashboardProps) {
   const [thoughtText, setThoughtText] = useState('');
   const [isSharing, setIsSharing] = useState(false);
+  const [shareError, setShareError] = useState<string | null>(null);
+  const { isAuthenticated } = useAuth();
 
   // Mock recent whispers received
   const recentWhispers: WhisperCard[] = [
@@ -44,17 +48,29 @@ export default function Dashboard({ selectedLop, onNavigate }: DashboardProps) {
     }
   ];
 
-  const handleShare = () => {
+  const handleShare = async () => {
     if (!thoughtText.trim()) return;
     
     setIsSharing(true);
+    setShareError(null);
     
-    // Simulate sharing animation
-    setTimeout(() => {
-      setIsSharing(false);
+    try {
+      if (isAuthenticated) {
+        // Use real API when authenticated
+        await ThoughtsApi.create(thoughtText.trim());
+      } else {
+        // Simulate for guest users
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+      
       setThoughtText('');
-      // Could add a success message here
-    }, 2000);
+      // Could show success message here
+    } catch (error) {
+      console.error('Error sharing thought:', error);
+      setShareError('Failed to share your thought. Please try again.');
+    } finally {
+      setIsSharing(false);
+    }
   };
 
   const formatTimeAgo = (date: Date) => {
@@ -110,10 +126,19 @@ export default function Dashboard({ selectedLop, onNavigate }: DashboardProps) {
             
             <Textarea
               value={thoughtText}
-              onChange={(e) => setThoughtText(e.target.value)}
+              onChange={(e) => {
+                setThoughtText(e.target.value);
+                if (shareError) setShareError(null); // Clear error when typing
+              }}
               placeholder="What's on your mind today?"
               className="min-h-24 border-none bg-transparent text-base resize-none focus:ring-0 placeholder:text-muted-foreground/60"
             />
+            
+            {shareError && (
+              <div className="p-3 bg-coral/10 border border-coral/20 rounded-lg text-sm text-coral">
+                {shareError}
+              </div>
+            )}
             
             <div className="flex items-center justify-between">
               <span className="text-xs text-muted-foreground">

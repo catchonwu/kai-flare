@@ -4,7 +4,7 @@ import { Card } from './ui/card';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { useAuth } from '../contexts/AuthContext';
-import LopCharacter, { lopPersonalities } from './LopCharacter';
+import LopCharacter, { lopPersonalities, LopPersonality } from './LopCharacter';
 import AUTH_CONFIG from '../config/auth';
 import { Eye, EyeOff, Loader2, AlertCircle, Heart, Sparkles } from 'lucide-react';
 
@@ -12,9 +12,10 @@ interface AuthProps {
   onSkipAuth?: () => void;
   onAuthSuccess?: () => void;
   showAsPostOnboarding?: boolean;
+  selectedLop?: LopPersonality | null;
 }
 
-export default function Auth({ onSkipAuth, onAuthSuccess, showAsPostOnboarding = false }: AuthProps) {
+export default function Auth({ onSkipAuth, onAuthSuccess, showAsPostOnboarding = false, selectedLop }: AuthProps) {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     email: '',
@@ -75,7 +76,9 @@ export default function Auth({ onSkipAuth, onAuthSuccess, showAsPostOnboarding =
       if (isLogin) {
         await signIn(formData.email, formData.password);
       } else {
-        await signUp(formData.email, formData.password, formData.name);
+        // Pass the selected Lop character ID to signUp
+        const lopCharacterId = selectedLop?.id || lopPersonalities[0].id;
+        await signUp(formData.email, formData.password, formData.name, lopCharacterId);
       }
       // Call success callback if provided
       onAuthSuccess?.();

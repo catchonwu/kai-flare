@@ -63,7 +63,14 @@ function AppContent() {
 
   // Show auth screen after onboarding if authentication is enabled and user is not authenticated
   if (showAuthAfterOnboarding) {
-    return <Auth onSkipAuth={handleSkipAuth} onAuthSuccess={handleAuthSuccess} showAsPostOnboarding={true} />;
+    return (
+      <Auth 
+        onSkipAuth={handleSkipAuth} 
+        onAuthSuccess={handleAuthSuccess} 
+        showAsPostOnboarding={true}
+        selectedLop={selectedLop}
+      />
+    );
   }
 
   // Render appropriate screen based on navigation
